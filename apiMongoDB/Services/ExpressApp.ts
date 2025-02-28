@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import path from 'path';
 import { CategoryRoute } from '../Routes/CategoryRoute';
 import { ProductRoute } from '../Routes/ProductRoute';
+import { UserRoute } from '../Routes/UsersRoute';
 
 export default async (app: Application) => {
     app.use(express.json());
@@ -10,6 +11,7 @@ export default async (app: Application) => {
     app.use('/category', CategoryRoute)
    // app.use(express.static(path.join(__dirname, 'public')));
     app.use('/product', ProductRoute)
+    app.use("/user", UserRoute)
 
     return app;
 }

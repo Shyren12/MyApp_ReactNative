@@ -13,9 +13,8 @@ const { width, height } = Dimensions.get('window');
 
 export const ProductDetails = ({ route, navigation }: RootStackScreenProps<'productDetails'>) => {
     const { _id, images, name, price, oldPrice, inStock, color, size, description, quantity } = route.params;
-
     const productItemObj: ProductListParams = route.params as ProductListParams;
-    
+
     const gotoCartScreen = () => {
         if (cart.length === 0) {
             setMessage("Cart is empty. Please add products to cart.");
@@ -29,13 +28,12 @@ export const ProductDetails = ({ route, navigation }: RootStackScreenProps<'prod
 
     const goToPreviousScreen = () => {
         if (navigation.canGoBack()) {
-            console.log("Go back to previous page");
             navigation.goBack();
         } else {
-            console.log("Can't go back to previous page, back to Onboardingding.");
             navigation.navigate('OnboardingScreen');
         }
     };
+
     const cart = useSelector((state: CartState) => state.cart.cart);
     const dispatch = useDispatch();
     const [addedToCart, setAddedToCart] = React.useState(false);
@@ -69,73 +67,61 @@ export const ProductDetails = ({ route, navigation }: RootStackScreenProps<'prod
         }
     }
 
-
     return (
-        <SafeAreaView style={{ paddingTop: Platform.OS === 'android' ? 20 : 0, flex: 1, backgroundColor: 'white' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#F9F9F9' }}>
             {displayMessage && <DisplayMessage message={message} visible={() => setDisplayMessage(!displayMessage)} />}
             <HeadersComponent gotoCartScreen={gotoCartScreen} goToPrevious={goToPreviousScreen} />
-            <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'pink' }}>
-                <ImageBackground style={{ width, minHeight: height, marginTop: 25 }}>
-                    <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: '#C6C8C3', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: 'yellow', fontWeight: '600', fontSize: 12 }}>
-                                {oldPrice ? `${((1 - price / oldPrice) * 100).toFixed(1)}% off` : '0% off'}
+            <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
+                <ImageBackground style={{ width, minHeight: height * 0.45 }} imageStyle={{ borderRadius: 20 }}>
+                    <View style={{ padding: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <View style={{ paddingHorizontal: 10, paddingVertical: 5, borderRadius: 15, backgroundColor: '#E3F2FD' }}>
+                            <Text style={{ color: '#29B6F6', fontWeight: 'bold', fontSize: 12 }}>
+                                {oldPrice ? `${((1 - price / oldPrice) * 100).toFixed(1)}% OFF` : '0% OFF'}
                             </Text>
                         </View>
-                        <MaterialCommunityIcons name="share-variant" size={25} color="green" />
+                        <MaterialCommunityIcons name="share-variant" size={25} color="#4CAF50" />
                     </View>
 
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Image style={{ width: 400, height: 400, resizeMode: 'contain' }} source={{ uri: images?.[0] || 'https://via.placeholder.com/300' }} />
+                        <Image style={{ width: 350, height: 350, resizeMode: 'contain', borderRadius: 15 }} source={{ uri: images?.[0] || 'https://via.placeholder.com/300' }} />
                     </View>
-                </ImageBackground> 
+                </ImageBackground>
 
-                <View style={{ padding: 20, backgroundColor: 'white' }}>
-                    <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{name}</Text>
-                    <Text style={{ fontSize: 18, color: 'green', marginVertical: 10 }}>{description}</Text>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Price: {price} $</Text>
-                    {oldPrice && <Text style={{ fontSize: 16, color: 'grey' }}>Old Price: {oldPrice} $</Text>}
-                    <Text style={{ fontSize: 16, color: quantity > 0 ? 'blue' : 'red' }}>{quantity > 0 ? `In Stock - Quantity: ${quantity}` : 'Out of Stock'}</Text>
-                    <Text style={{ fontSize: 16, color: 'orange' }}>Color: {color}</Text>
-                    <Text style={{ fontSize: 16, color: 'red' }}>Size: {size}</Text>
+                <View style={{ padding: 20, backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#212121' }}>{name}</Text>
+                    <Text style={{ fontSize: 16, color: '#757575', marginVertical: 10 }}>{description}</Text>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#388E3C' }}>${price}</Text>
+                    {oldPrice && <Text style={{ fontSize: 16, color: '#B0BEC5', textDecorationLine: 'line-through' }}>${oldPrice}</Text>}
+                    <Text style={{ fontSize: 16, color: quantity > 0 ? '#388E3C' : '#D32F2F' }}>{quantity > 0 ? `In Stock (${quantity} items)` : 'Out of Stock'}</Text>
                 </View>
 
                 <View style={{ padding: 20, backgroundColor: 'white', marginBottom: 20 }}>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'blue' }}>Delivery</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#1E88E5' }}>Delivery Information</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-                        <Ionicons name="location-sharp" size={25} color="green" />
-                        <Text style={{ fontSize: 14, color: 'brown', marginLeft: 5 }}>
+                        <Ionicons name="location-sharp" size={25} color="#388E3C" />
+                        <Text style={{ fontSize: 14, color: '#616161', marginLeft: 5 }}>
                             Delivery to: CAMPUS THANH THAI, 7/1 Thanh Thai, Ward 14, District 10, Ho Chi Minh City
                         </Text>
                     </View>
                 </View>
-
-                <View style={{ padding: 20, backgroundColor: 'white', marginBottom: 20 }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'purple', marginBottom: 10 }}>Description</Text>
-                    <Text style={{ fontSize: 16, color: 'green' }}>
-                        Size 7 (24-26kg, 122-130cm){"\n"}
-                        Size 8 (27-30kg, 130-137cm){"\n"}
-                        Size 9 (31-34kg, 137-145cm){"\n"}
-                        Size 10 (35-39kg, 145-150cm)
-                    </Text>
-                </View>
             </ScrollView>
-            <View style={{ backgroundColor: "white", paddingBottom: 0 }}>
+
+            <View style={{ backgroundColor: 'white', paddingVertical: 10, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
                 <Pressable
-                    style={{ backgroundColor: "green", padding: 15, alignItems: "center", justifyContent: "center", borderRadius: 10, margin: 10 }}
-                    onPress={() =>
-                        addItemToCart(productItemObj)}>
-                    {addedToCart ? (
-                        <Text style={{ color: "violet", fontSize: 20, fontWeight: "bold" }}>
-                            Add to Cart</Text>
-                    ) : (
-                        <Text style={{ color: "orange", fontSize: 20, fontWeight: "bold" }}>
-                            Add to Cart</Text>
-                    )
-                    }
+                    style={{
+                        backgroundColor: '#4CAF50',
+                        padding: 15,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 10,
+                        marginHorizontal: 20,
+                    }}
+                    onPress={() => addItemToCart(productItemObj)}>
+                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>
+                        {addedToCart ? 'Added to Cart' : 'Add to Cart'}
+                    </Text>
                 </Pressable>
             </View>
-
         </SafeAreaView>
     );
 };

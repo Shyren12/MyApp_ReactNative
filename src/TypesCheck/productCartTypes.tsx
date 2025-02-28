@@ -3,14 +3,14 @@ export interface ProductListParams {
     images: [string];
     name: string;
     price: number;
-    oldPrice: number;
+    oldPrice?: number;
     color?: string;
     size?: string;
     description?: string;
-    quantity: number;
-    inStock?: boolean;
-    isFeatured?: boolean;
-    category?: string;
+    quantity: number
+    inStock?: boolean
+    isFeatured?: boolean
+    category?: string
 }
 
 export interface CartItem {
@@ -19,6 +19,7 @@ export interface CartItem {
 }
 
 export interface CartState {
+
     cart: {
         cart: ProductListParams[]
         length: number

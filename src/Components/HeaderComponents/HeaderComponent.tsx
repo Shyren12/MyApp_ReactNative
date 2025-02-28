@@ -4,6 +4,7 @@ import { Entypo, AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { GoBack } from './GoBackButton';
 
 interface IHeaderParams {
+    pageTitle?: string;
     goToPrevious?: () => void;
     search?: () => void;
     cartLength?: number;
